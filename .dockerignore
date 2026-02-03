@@ -1,0 +1,32 @@
+.git
+.gitignore
+*.md
+.env
+.env.local
+
+# Node
+node_modules
+**/node_modules
+frontend/.next
+frontend/.turbo
+frontend/.cache
+frontend/.eslintcache
+
+# Python
+venv
+.venv
+**/venv
+**/.venv
+__pycache__
+**/__pycache__
+*.pyc
+
+# IDE / tools
+.cursor
+.vscode
+.idea
+
+# Databases & misc
+*.db
+*.sqlite
+.DS_Store
