@@ -17,7 +17,7 @@ A **RAG-based (Retrieval-Augmented Generation) document Q&A system**. Upload PDF
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend** | Next.js 14, React, TypeScript, Tailwind CSS |
+| **Frontend** | Next.js 14, React.js, TypeScript, Tailwind CSS |
 | **Backend** | FastAPI (Python 3.10+) |
 | **Queue / jobs** | Redis, Python RQ |
 | **Vector store** | Qdrant |
