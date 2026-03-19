@@ -35,6 +35,7 @@ export default function ChatInterface({ chatId, API_URL }: ChatInterfaceProps) {
     fetchMessages()
   }, [chatId])
 
+  
   useEffect(() => {
     scrollToBottom()
   }, [messages])
