@@ -161,7 +161,7 @@ npm run dev
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Backend base URL, e.g. `http://localhost:8000` |
+| `NEXT_PUBLIC_API_URL` | Backend  base URL, e.g. `http://localhost:8000` |
 
 ---
 
