@@ -95,7 +95,7 @@ async def health():
                 else:
                     status["services"]["worker"] = "warning: no workers found"
             except Exception as e:
-                status["services"]["worker"] = f"error checking workers: {str(e)}"
+                status["services"]["worker"] = f"error checking workers:  {str(e)}"
         else:
             status["services"]["redis"] = "not_initialized"
             status["services"]["worker"] = "not_available"
