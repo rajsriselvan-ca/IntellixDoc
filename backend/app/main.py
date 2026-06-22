@@ -87,9 +87,9 @@ async def health():
             
             # Check if worker queue has workers
             try:
-                from rq import Queue
+                from rq import Queue, Worker
                 queue = Queue("default", connection=redis_conn)
-                workers = queue.connection.smembers(queue.redis_workers_key)
+                workers = Worker.all(queue=queue)
                 if workers:
                     status["services"]["worker"] = f"connected ({len(workers)} worker(s))"
                 else:
@@ -370,7 +370,11 @@ async def create_message(
         
         # Search for relevant chunks
         try:
-            search_results = qdrant_service.search(query_embedding, limit=5, score_threshold=0.3)
+            # No hard score threshold: all-MiniLM-L6-v2 cosine scores vary
+            # widely by content type (prose ~0.5, terse keyword lists ~0.1),
+            # so a fixed cutoff drops valid matches. Rely on top-k instead and
+            # let the LLM judge relevance from the retrieved context.
+            search_results = qdrant_service.search(query_embedding, limit=8, score_threshold=0.0)
             logger.info(f"Found {len(search_results)} search results")
         except Exception as e:
             logger.error(f"Error searching Qdrant: {str(e)}")

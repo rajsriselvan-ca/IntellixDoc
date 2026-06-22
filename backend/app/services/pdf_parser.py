@@ -4,7 +4,10 @@ import os
 
 
 class PDFParser:
-    def __init__(self, chunk_size: int = 1000, chunk_overlap: int = 200):
+    def __init__(self, chunk_size: int = 600, chunk_overlap: int = 120):
+        # chunk_size and chunk_overlap are both measured in characters.
+        # chunk_overlap MUST stay well below chunk_size, otherwise chunking
+        # degenerates into hundreds of near-duplicate windows.
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
     
@@ -47,9 +50,16 @@ class PDFParser:
                     "chunk_index": chunk_index
                 })
                 chunk_index += 1
-                
-                # Start new chunk with overlap
-                overlap_words = current_chunk[-self.chunk_overlap:] if len(current_chunk) > self.chunk_overlap else current_chunk
+
+                # Start new chunk with overlap measured in CHARACTERS (capped
+                # below chunk_size) so the window always advances forward.
+                overlap_words = []
+                overlap_length = 0
+                for w in reversed(current_chunk):
+                    if overlap_length + len(w) + 1 > self.chunk_overlap:
+                        break
+                    overlap_words.insert(0, w)
+                    overlap_length += len(w) + 1
                 current_chunk = overlap_words + [word]
                 current_length = sum(len(w) + 1 for w in current_chunk)
             else:

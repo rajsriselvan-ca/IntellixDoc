@@ -11,7 +11,7 @@ qdrant-client==1.7.0
 pymupdf==1.23.8
 # sentence-transformers requires PyTorch; on Windows use CPU build if needed:
 # pip install torch --index-url https://download.pytorch.org/whl/cpu
-sentence-transformers==2.2.2
+sentence-transformers>=2.7.0
 groq==0.4.1
 openai==1.3.7
 anthropic==0.7.7

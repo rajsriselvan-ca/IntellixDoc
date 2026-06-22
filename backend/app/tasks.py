@@ -5,6 +5,7 @@ from app.services.embedding import generate_embeddings
 from app.services.qdrant_service import qdrant_service, COLLECTION_NAME
 from qdrant_client.models import PointStruct
 import os
+import uuid
 import logging
 import traceback
 
@@ -71,7 +72,10 @@ def process_document(document_id: int, file_path: str):
         vector_ids = []
         
         for i, (chunk_data, embedding) in enumerate(zip(chunks_data, embeddings)):
-            vector_id = f"doc_{document_id}_chunk_{i}"
+            # Qdrant requires point IDs to be an unsigned integer or a UUID.
+            # Derive a deterministic UUID from the logical id so the later
+            # re-upsert (with chunk IDs) targets the same points.
+            vector_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, f"doc_{document_id}_chunk_{i}"))
             vector_ids.append(vector_id)
             vectors.append(embedding)
             
